@@ -1,9 +1,13 @@
 import csv
 import re
-import pandas as pd
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import WordNetLemmatizer
+import sys
+
+reload(sys)
+
+sys.setdefaultencoding('ascii')
 
 """
 pretreatment data, remove unnecessary text like
@@ -38,7 +42,7 @@ def filter_stop_words(text):
     stop_words.add("p")
     stop_words.add("I")
     words = [stem_words(w) for w in text_tokenizer if w not in stop_words]
-    print(words)
+#    print(words)
     return words
 
 
@@ -50,11 +54,16 @@ def filter_stop_words(text):
 
 
 def stem_words(word):
-    word_net = WordNetLemmatizer()
-    return word_net.lemmatize(word)
+    try:
+      word_net = WordNetLemmatizer()
+      result = word_net.lemmatize(word)
+    except UnicodeDecodeError:
+     return ""
+    else:
+     return result
 
 
-csv_file = csv.reader(open("testQ.csv", 'r'))
+csv_file = csv.reader(open("Questions.csv",'r'))
 
 clean_file = open("clean_question.csv", 'w')
 csv_writer = csv.writer(clean_file)
