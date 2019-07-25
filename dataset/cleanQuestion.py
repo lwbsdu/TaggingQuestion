@@ -55,15 +55,15 @@ def filter_stop_words(text):
 
 def stem_words(word):
     try:
-      word_net = WordNetLemmatizer()
-      result = word_net.lemmatize(word)
+        word_net = WordNetLemmatizer()
+        result = word_net.lemmatize(word)
     except UnicodeDecodeError:
-     return ""
+        return ""
     else:
-     return result
+        return result
 
 
-csv_file = csv.reader(open("Questions.csv",'r'))
+csv_file = csv.reader(open("Questions.csv", 'r'))
 
 clean_file = open("clean_question.csv", 'w')
 csv_writer = csv.writer(clean_file)
