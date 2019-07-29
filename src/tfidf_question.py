@@ -1,10 +1,12 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
+import os
 import pandas as pd
+from sklearn.externals import joblib
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 sys.path.append("../dataset/")
 
@@ -22,6 +24,11 @@ def merge_tag_question():
     return merge_csv
 
 
+if os.path.exists("ovr.pkl"):
+    print("ovr.pkl exist,begin to load!")
+    load_ovr = joblib.load("ovr.pkl")
+    exit()
+
 data = merge_tag_question()
 data_train = data["Body"]
 data_tag = data["Tag"]
@@ -37,4 +44,6 @@ x_train, x_test, y_train, y_test = train_test_split(tf_data, mlb_tag, test_size=
 ovr = OneVsRestClassifier(SVC(gamma="auto"))
 ovr.fit(x_train, y_train)
 
-print ovr.score(x_test, y_test)
+joblib.dump(ovr, 'ovr.pkl')
+
+
