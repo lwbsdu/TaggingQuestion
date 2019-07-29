@@ -3,11 +3,7 @@ import re
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import WordNetLemmatizer
-import sys
 
-reload(sys)
-
-sys.setdefaultencoding('ascii')
 
 """
 pretreatment data, remove unnecessary text like
